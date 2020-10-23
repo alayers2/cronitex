@@ -25,7 +25,9 @@ defmodule Cronitex.Umbrella.MixProject do
   # Dependencies listed here are available only for this project
   # and cannot be accessed from applications inside the apps/ folder.
   defp deps do
-    []
+    [
+      {:excoveralls, "~> 0.13.3", only: :test}
+    ]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.

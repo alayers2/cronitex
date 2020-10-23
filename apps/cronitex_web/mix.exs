@@ -14,7 +14,8 @@ defmodule CronitexWeb.MixProject do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls]
     ]
   end
 
@@ -47,8 +48,7 @@ defmodule CronitexWeb.MixProject do
       {:gettext, "~> 0.11"},
       {:cronitex, in_umbrella: true},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"},
-      {:excoveralls, "~> 0.13.3", only: :test}
+      {:plug_cowboy, "~> 2.0"}
     ]
   end
 
