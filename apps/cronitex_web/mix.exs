@@ -47,7 +47,8 @@ defmodule CronitexWeb.MixProject do
       {:gettext, "~> 0.11"},
       {:cronitex, in_umbrella: true},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"}
+      {:plug_cowboy, "~> 2.0"},
+      {:excoveralls, "~> 0.13.3", only: :test}
     ]
   end
 
