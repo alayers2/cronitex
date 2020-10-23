@@ -21,6 +21,7 @@ RUN mix local.rebar --force
 RUN mix local.hex --force
 
 # Compile the project
+RUN mix deps.get
 RUN mix do compile
 
 WORKDIR /app/apps/cronitex_web/assets
