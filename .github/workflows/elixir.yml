@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build Docker Compose
-      run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml
+      run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml build
     - name: Docker-Compose Up
       run: docker-compose up -d
     - name: Slight Pause
