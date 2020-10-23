@@ -3,9 +3,9 @@
 # Extend from the official Elixir image
 FROM elixir:latest
 
-RUN apt-get update -y
-RUN apt-get install postgresql-client-11 -y
-RUN apt-get install inotify-tools -y
+RUN apt-get update -y -qq
+RUN apt-get install postgresql-client-11 -y -qq
+RUN apt-get install inotify-tools -y -qq
 
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
 RUN apt-get install -y nodejs
