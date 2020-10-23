@@ -1,0 +1,37 @@
+
+version: '3'
+
+services:
+  cronitex:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: cronitex_db
+      PGPORT: 5432
+      PGHOST: cronitex_db
+    ports:
+      - "4000:4000"
+      - "4369:4369"
+      - "9000:9000"
+    depends_on:
+      - cronitex_db
+    volumes: 
+      - ./apps:/app/apps
+      - ./config:/app/config 
+  cronitex_db:
+    image: postgres:13.0
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+# Define the volumes
+volumes:
+  pgdata:
