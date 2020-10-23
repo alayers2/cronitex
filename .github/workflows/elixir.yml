@@ -14,20 +14,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Elixir
-      uses: actions/setup-elixir@v1
-      with:
-        elixir-version: '1.10.4' # Define the elixir version [required]
-        otp-version: '22.3' # Define the OTP version [required]
-    - name: Restore dependencies cache
-      uses: actions/cache@v2
-      with:
-        path: deps
-        key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
-        restore-keys: ${{ runner.os }}-mix-
-    - name: Install dependencies
-      run: mix deps.get
+    - name: Build Docker Compose
+      run: docker-compose -f docker-compose.yml -f docker-compose.ci.yml
+    - name: Docker-Compose Up
+      run: docker-compose up -d
+    - name: Slight Pause
+      run: sleep 10
     - name: Run tests
-      run: MIX_ENV=test mix do compile --warnings-as-errors --umbrella, coveralls.json
+      run: docker-compose exec cronitex mix do compile --warnings-as-errors --umbrella, coveralls.json
     - name: Upload Coverage
       run: bash <(curl -s https://codecov.io/bash)
