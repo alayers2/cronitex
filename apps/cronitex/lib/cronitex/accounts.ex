@@ -107,7 +107,7 @@ defmodule Cronitex.Accounts do
     User.changeset(user, attrs)
   end
 
-  def change_regstration(%User{} = user, params) do
+  def change_registration(%User{} = user, params) do
     User.registration_changeset(user, params)
   end
 
