@@ -7,6 +7,7 @@ defmodule Cronitex.Accounts.User do
     field :password_hash, :string
     field :password, :string, virtual: true
     field :username, :string
+    field :is_superuser, :boolean, default: false
 
     timestamps()
   end

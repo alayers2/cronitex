@@ -10,12 +10,6 @@ defmodule Cronitex.Accounts do
 
   @doc """
   Returns the list of users.
-
-  ## Examples
-
-      iex> list_users()
-      [%User{}, ...]
-
   """
   def list_users do
     Repo.all(User)
@@ -25,15 +19,6 @@ defmodule Cronitex.Accounts do
   Gets a single user.
 
   Raises `Ecto.NoResultsError` if the User does not exist.
-
-  ## Examples
-
-      iex> get_user!(123)
-      %User{}
-
-      iex> get_user!(456)
-      ** (Ecto.NoResultsError)
-
   """
   def get_user!(id), do: Repo.get!(User, id)
 
@@ -44,15 +29,6 @@ defmodule Cronitex.Accounts do
 
   @doc """
   Creates a user.
-
-  ## Examples
-
-      iex> create_user(%{field: value})
-      {:ok, %User{}}
-
-      iex> create_user(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
   """
   def create_user(attrs \\ %{}) do
     %User{}
@@ -62,15 +38,6 @@ defmodule Cronitex.Accounts do
 
   @doc """
   Updates a user.
-
-  ## Examples
-
-      iex> update_user(user, %{field: new_value})
-      {:ok, %User{}}
-
-      iex> update_user(user, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
   """
   def update_user(%User{} = user, attrs) do
     user
@@ -80,15 +47,6 @@ defmodule Cronitex.Accounts do
 
   @doc """
   Deletes a user.
-
-  ## Examples
-
-      iex> delete_user(user)
-      {:ok, %User{}}
-
-      iex> delete_user(user)
-      {:error, %Ecto.Changeset{}}
-
   """
   def delete_user(%User{} = user) do
     Repo.delete(user)
@@ -96,12 +54,6 @@ defmodule Cronitex.Accounts do
 
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking user changes.
-
-  ## Examples
-
-      iex> change_user(user)
-      %Ecto.Changeset{data: %User{}}
-
   """
   def change_user(%User{} = user, attrs \\ %{}) do
     User.changeset(user, attrs)
@@ -113,22 +65,6 @@ defmodule Cronitex.Accounts do
 
   @doc """
   Function to get the user by a set of parameters
-
-  ## Examples
-
-    iex> Rumbl.Accounts.get_user_by(name: "Bruce")
-    %Rumbl.Accounts.User{id: "2", name: "Bruce", username: "redrapids"}
-
-
-    iex> Rumbl.Accounts.get_user_by(id: "2")
-    %Rumbl.Accounts.User{id: "2", name: "Bruce", username: "redrapids"}
-
-
-    iex> Rumbl.Accounts.get_user_by(username: "redrapids")
-    %Rumbl.Accounts.User{id: "2", name: "Bruce", username: "redrapids"}
-
-    iex> Rumbl.Accounts.get_user_by(name: "Jimmy")
-    nil
   """
   def get_user_by(params) do
     Repo.get_by(User, params)
@@ -138,12 +74,18 @@ defmodule Cronitex.Accounts do
     Repo.get_by!(User, params)
   end
 
+  @doc """
+  Function to create a new user including hashing their password.
+  """
   def register_user(attrs \\ %{}) do
     %User{}
     |> User.registration_changeset(attrs)
     |> Repo.insert()
   end
 
+  @doc """
+  Function to authenticate a given username and password and return a user if found and correct.
+  """
   def authenticate_by_username_and_pass(username, given_pass) do
     user = get_user_by(username: username)
 
@@ -158,6 +100,9 @@ defmodule Cronitex.Accounts do
     end
   end
 
+  @doc """
+  Returns a list of users with ids in a list
+  """
   def list_users_with_ids(ids) do
     Repo.all(from(u in User, where: u.id in ^ids))
   end
