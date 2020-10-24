@@ -22,6 +22,8 @@ defmodule Cronitex.AccountsTest do
     assert {:ok, %User{id: id}=user} = Accounts.register_user(@valid_attrs)
     assert user.name == "User"
     assert user.username == "username"
+    assert user.password_hash
+    refute user.is_superuser
   end
 
   test "with invalid data rejects user" do
@@ -47,6 +49,28 @@ defmodule Cronitex.AccountsTest do
 
   test "we raise on fail to get a user for a bad ID" do
     catch_error Accounts.get_user!(0)
+  end
+
+  test "unique constraint on usernames" do
+    assert {:ok, user} = Accounts.register_user(@valid_attrs)
+    IO.inspect(user)
+    assert {:error, changeset} = Accounts.register_user(@valid_attrs)
+    assert %{username: ["has already been taken"]} = errors_on(changeset)
+  end
+
+  test "we can get a user by other params as long as it's unique" do
+    user = TestHelpers.user_fixture()
+    assert user = Accounts.get_user_by!(username: user.username)
+
+    assert user = Accounts.get_user_by(username: user.username)
+  end
+
+  test "we fail to get a user for a bad username" do
+   refute Accounts.get_user_by(username: "blah")
+  end
+
+  test "we raise on fail to get a user for a bad username" do
+    catch_error Accounts.get_user_by!(username: "blah")
   end
 
 
