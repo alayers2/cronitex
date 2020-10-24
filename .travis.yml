@@ -3,15 +3,13 @@ language: elixir
 services:
   - docker
 
-env:
-  - MIX_ENV=test
 before_script:
     - docker-compose build
     - docker-compose up -d
     - sleep 10
 
 script:
-  - docker-compose exec cronitex mix do compile --warnings-as-errors --umbrella, coveralls.json
+  - docker-compose exec cronitex sh -c 'MIX_ENV=test mix do compile --warnings-as-errors --umbrella, coveralls.json'
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
