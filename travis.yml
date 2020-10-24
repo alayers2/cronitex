@@ -1,0 +1,15 @@
+language: elixir
+
+services:
+  - docker
+
+before_script:
+    - docker-compose -f docker-compose.yml -f docker-compose.ci.yml build
+    - docker-compose up -d
+    - sleep 10
+
+script:
+  - docker-compose exec cronitex mix do compile --warnings-as-errors --umbrella, coveralls.json
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
