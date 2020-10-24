@@ -3,8 +3,10 @@ language: elixir
 services:
   - docker
 
+env:
+  - MIX_ENV=test
 before_script:
-    - docker-compose -f docker-compose.yml -f docker-compose.ci.yml build
+    - docker-compose build
     - docker-compose up -d
     - sleep 10
 
