@@ -1,0 +1,30 @@
+<h1>Listing Cronmonitors</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Token</th>
+      <th>Cron expression</th>
+      <th>Start tolerance seconds</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for cron_monitor <- @cronmonitors do %>
+    <tr>
+      <td><%= cron_monitor.token %></td>
+      <td><%= cron_monitor.cron_expression %></td>
+      <td><%= cron_monitor.start_tolerance_seconds %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.cron_monitor_path(@conn, :show, cron_monitor) %></span>
+        <span><%= link "Edit", to: Routes.cron_monitor_path(@conn, :edit, cron_monitor) %></span>
+        <span><%= link "Delete", to: Routes.cron_monitor_path(@conn, :delete, cron_monitor), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Cron monitor", to: Routes.cron_monitor_path(@conn, :new) %></span>

@@ -1,0 +1,23 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <%= label f, :token %>
+  <%= text_input f, :token %>
+  <%= error_tag f, :token %>
+
+  <%= label f, :cron_expression %>
+  <%= text_input f, :cron_expression %>
+  <%= error_tag f, :cron_expression %>
+
+  <%= label f, :start_tolerance_seconds %>
+  <%= number_input f, :start_tolerance_seconds %>
+  <%= error_tag f, :start_tolerance_seconds %>
+
+  <div>
+    <%= submit "Save" %>
+  </div>
+<% end %>

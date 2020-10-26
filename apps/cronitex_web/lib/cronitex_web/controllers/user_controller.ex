@@ -15,7 +15,7 @@ defmodule CronitexWeb.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    case Accounts.create_user(user_params) do
+    case Accounts.register_user(user_params) do
       {:ok, user} ->
         conn
         |> CronitexWeb.Auth.login(user)
