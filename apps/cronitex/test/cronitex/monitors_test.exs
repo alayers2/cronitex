@@ -33,7 +33,8 @@ defmodule Cronitex.MonitorsTest do
       assert {:ok, %CronMonitor{} = cron_monitor} = Monitors.create_cron_monitor(@valid_attrs)
       assert cron_monitor.cron_expression == "some cron_expression"
       assert cron_monitor.start_tolerance_seconds == 60
-      assert cron_monitor.token == "some token"
+      # This will be a UUID, so assert is not nil
+      assert cron_monitor.token
     end
 
     test "create_cron_monitor/1 with invalid data returns error changeset" do
@@ -42,13 +43,15 @@ defmodule Cronitex.MonitorsTest do
 
     test "update_cron_monitor/2 with valid data updates the cron_monitor" do
       cron_monitor = cron_monitor_fixture()
+      original_token = cron_monitor.token
       assert {:ok, %CronMonitor{} = cron_monitor} = Monitors.update_cron_monitor(cron_monitor, @update_attrs)
       assert cron_monitor.cron_expression == "some updated cron_expression"
       assert cron_monitor.start_tolerance_seconds == 43
-      assert cron_monitor.token == "some updated token"
+      # assert token doesn't change
+      assert cron_monitor.token == original_token
     end
 
-    
+
 
     test "update_cron_monitor/2 with invalid data returns error changeset" do
       cron_monitor = cron_monitor_fixture()

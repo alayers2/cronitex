@@ -23,9 +23,9 @@ defmodule Cronitex.Monitors.CronMonitor do
 
   defp put_token(changeset) do
     unless changeset.data.token do
-      IO.puts("adding token")
       put_change(changeset, :token, Ecto.UUID.generate())
+    else
+      changeset
     end
   end
-
 end
