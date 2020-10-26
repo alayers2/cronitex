@@ -7,6 +7,7 @@ defmodule Cronitex.Monitors do
   alias Cronitex.Repo
 
   alias Cronitex.Monitors.CronMonitor
+  alias Cronitex.Accounts
 
   @doc """
   Returns the list of cronmonitors.
@@ -49,9 +50,10 @@ defmodule Cronitex.Monitors do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_cron_monitor(attrs \\ %{}) do
+  def create_cron_monitor(%Accounts.User{} = user, attrs \\ %{}) do
     %CronMonitor{}
     |> CronMonitor.changeset(attrs)
+    |> Ecto.Changeset.put_assoc(:user, user)
     |> Repo.insert()
   end
 
@@ -100,5 +102,22 @@ defmodule Cronitex.Monitors do
   """
   def change_cron_monitor(%CronMonitor{} = cron_monitor, attrs \\ %{}) do
     CronMonitor.changeset(cron_monitor, attrs)
+  end
+
+
+  def list_user_monitors(%Accounts.User{} = user) do
+    CronMonitor
+    |> user_monitor_query(user)
+    |> Repo.all()
+  end
+
+  def get_user_monitor!(%Accounts.User{} = user, id) do
+    CronMonitor
+    |> user_monitor_query(user)
+    |> Repo.get!(id)
+  end
+
+  defp user_monitor_query(query, %Accounts.User{id: user_id}) do
+    from(m in query, where: m.user_id == ^user_id)
   end
 end

@@ -18,6 +18,8 @@ defmodule Cronitex.Monitors.CronMonitor do
     cron_monitor
     |> cast(attrs, [:name,:cron_expression, :start_tolerance_seconds])
     |> validate_required([:name, :cron_expression, :start_tolerance_seconds])
+    |> unique_constraint(:token)
+    |> unique_constraint([:name, :user_id])
     |> put_token()
   end
 

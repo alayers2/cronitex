@@ -3,6 +3,7 @@
 <table>
   <thead>
     <tr>
+      <th>Name </th>
       <th>Token</th>
       <th>Cron expression</th>
       <th>Start tolerance seconds</th>
@@ -13,6 +14,7 @@
   <tbody>
 <%= for cron_monitor <- @cronmonitors do %>
     <tr>
+      <td><%= cron_monitor.name %></td>
       <td><%= cron_monitor.token %></td>
       <td><%= cron_monitor.cron_expression %></td>
       <td><%= cron_monitor.start_tolerance_seconds %></td>

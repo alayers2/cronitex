@@ -5,12 +5,12 @@
     </div>
   <% end %>
 
-  <%= label f, :token %>
-  <%= text_input f, :token %>
-  <%= error_tag f, :token %>
+  <%= label f, :name %>
+  <%= text_input f, :name, placeholder: "New Monitor Name" %>
+  <%= error_tag f, :name %>
 
   <%= label f, :cron_expression %>
-  <%= text_input f, :cron_expression %>
+  <%= text_input f, :cron_expression, placeholder: "0 * * * *" %>
   <%= error_tag f, :cron_expression %>
 
   <%= label f, :start_tolerance_seconds %>

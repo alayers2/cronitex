@@ -3,6 +3,11 @@
 <ul>
 
   <li>
+    <strong>Name:</strong>
+    <%= @cron_monitor.name %>
+  </li>
+
+  <li>
     <strong>Token:</strong>
     <%= @cron_monitor.token %>
   </li>
