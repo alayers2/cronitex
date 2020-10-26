@@ -16,7 +16,7 @@
     <tr>
       <td><%= cron_monitor.name %></td>
       <td><%= cron_monitor.token %></td>
-      <td><%= cron_monitor.cron_expression %></td>
+      <td><%= cron_str(cron_monitor.cron_expression) %></td>
       <td><%= cron_monitor.start_tolerance_seconds %></td>
 
       <td>

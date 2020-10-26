@@ -14,7 +14,7 @@
 
   <li>
     <strong>Cron expression:</strong>
-    <%= @cron_monitor.cron_expression %>
+    <%= cron_str(@cron_monitor.cron_expression) %>
   </li>
 
   <li>

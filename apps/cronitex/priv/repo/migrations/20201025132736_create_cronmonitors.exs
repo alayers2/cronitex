@@ -5,7 +5,7 @@ defmodule Cronitex.Repo.Migrations.CreateCronmonitors do
     create table(:cronmonitors) do
       add :name, :string
       add :token, :string
-      add :cron_expression, :string
+      add :cron_expression, :map
       add :start_tolerance_seconds, :integer
       add :user_id, references(:users)
       timestamps()
