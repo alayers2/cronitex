@@ -7,6 +7,7 @@ defmodule CronitexWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug CronitexWeb.Auth
   end
 
   pipeline :api do
@@ -17,6 +18,8 @@ defmodule CronitexWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    resources "/users", UserController, only: [:new, :create, :show, :delete]
+    resources "/sessions", SessionController, only: [:new, :create, :delete]
   end
 
   # Other scopes may use custom stacks.

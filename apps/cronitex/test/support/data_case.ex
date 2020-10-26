@@ -27,14 +27,10 @@ defmodule Cronitex.DataCase do
     end
   end
 
-  setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Cronitex.Repo)
+  setup _tags do
+    Ecto.Adapters.SQL.Sandbox.checkout(Cronitex.Repo)
 
-    unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Cronitex.Repo, {:shared, self()})
-    end
-
-    :ok
+    # Don't need handling for other tags here, will only be using postgres.
   end
 
   @doc """
