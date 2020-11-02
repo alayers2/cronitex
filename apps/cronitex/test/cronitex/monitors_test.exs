@@ -1,13 +1,13 @@
 defmodule Cronitex.MonitorsTest do
   use Cronitex.DataCase
-
+  import Crontab.CronExpression
   alias Cronitex.Monitors
 
   describe "cronmonitors" do
     alias Cronitex.Monitors.CronMonitor
 
-    @valid_attrs %{name: "valid cronmon", cron_expression: "some cron_expression"}
-    @update_attrs %{name: "updated cronmon", cron_expression: "some updated cron_expression", start_tolerance_seconds: 43}
+    @valid_attrs %{name: "valid cronmon", cron_expression: "* * * * * *"}
+    @update_attrs %{name: "updated cronmon", cron_expression: "*/2 * * * * *", start_tolerance_seconds: 43}
     @invalid_attrs %{name: "invalid cronmon", cron_expression: nil, start_tolerance_seconds: nil, token: nil}
 
     def cron_monitor_fixture() do
@@ -51,7 +51,7 @@ defmodule Cronitex.MonitorsTest do
     test "create_cron_monitor/1 with valid data creates a cron_monitor" do
       user = Cronitex.TestHelpers.user_fixture()
       assert {:ok, %CronMonitor{} = cron_monitor} = Monitors.create_cron_monitor(user, @valid_attrs)
-      assert cron_monitor.cron_expression == "some cron_expression"
+      assert cron_monitor.cron_expression == ~e[* * * * * *]
       assert cron_monitor.start_tolerance_seconds == 60
       # This will be a UUID, so assert is not nil
       assert cron_monitor.token
@@ -67,7 +67,7 @@ defmodule Cronitex.MonitorsTest do
       [user: _user, monitor: cron_monitor] = cron_monitor_fixture()
       original_token = cron_monitor.token
       assert {:ok, %CronMonitor{} = cron_monitor} = Monitors.update_cron_monitor(cron_monitor, @update_attrs)
-      assert cron_monitor.cron_expression == "some updated cron_expression"
+      assert cron_monitor.cron_expression == ~e[*/2 * * * * *]
       assert cron_monitor.start_tolerance_seconds == 43
       # assert token doesn't change
       assert cron_monitor.token == original_token
