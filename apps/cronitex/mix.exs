@@ -24,7 +24,7 @@ defmodule Cronitex.MixProject do
   def application do
     [
       mod: {Cronitex.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :crontab]
     ]
   end
 
@@ -41,7 +41,8 @@ defmodule Cronitex.MixProject do
       {:ecto_sql, "~> 3.4"},
       {:postgrex, ">= 0.0.0"},
       {:jason, "~> 1.0"},
-      {:pbkdf2_elixir, "~>1.0"}
+      {:pbkdf2_elixir, "~>1.0"},
+      {:crontab, "~> 1.1.10"}
     ]
   end
 

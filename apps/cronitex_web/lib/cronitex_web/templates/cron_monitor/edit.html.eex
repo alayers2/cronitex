@@ -1,0 +1,5 @@
+<h1>Edit Cron monitor</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.cron_monitor_path(@conn, :update, @cron_monitor)) %>
+
+<span><%= link "Back", to: Routes.cron_monitor_path(@conn, :index) %></span>

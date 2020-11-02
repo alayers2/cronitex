@@ -4,6 +4,9 @@ defmodule CronitexWeb.UserController do
   alias Cronitex.Accounts
   alias Cronitex.Accounts.User
 
+  # Make sure only logged in users can perform these actions.
+  plug :authenticate_user when action in [:index, :show]
+
   def index(conn, _params) do
     users = Accounts.list_users()
     render(conn, "index.html", users: users)

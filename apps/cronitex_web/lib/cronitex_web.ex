@@ -23,6 +23,7 @@ defmodule CronitexWeb do
 
       import Plug.Conn
       import CronitexWeb.Gettext
+      import CronitexWeb.Auth, only: [authenticate_user: 2]
       alias CronitexWeb.Router.Helpers, as: Routes
     end
   end
@@ -47,6 +48,7 @@ defmodule CronitexWeb do
 
       import Plug.Conn
       import Phoenix.Controller
+      import CronitexWeb.Auth, only: [authenticate_user: 2]
     end
   end
 

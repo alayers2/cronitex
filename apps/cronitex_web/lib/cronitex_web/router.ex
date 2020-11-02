@@ -22,6 +22,12 @@ defmodule CronitexWeb.Router do
     resources "/sessions", SessionController, only: [:new, :create, :delete]
   end
 
+  # Create a new scope that requires users to be logged in to view
+  scope "/manage", CronitexWeb do
+    pipe_through [:browser, :authenticate_user]
+    resources "/monitors", CronMonitorController
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", CronitexWeb do
   #   pipe_through :api

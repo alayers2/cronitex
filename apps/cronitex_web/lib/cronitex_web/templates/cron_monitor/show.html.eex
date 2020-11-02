@@ -1,0 +1,28 @@
+<h1>Show Cron monitor</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @cron_monitor.name %>
+  </li>
+
+  <li>
+    <strong>Token:</strong>
+    <%= @cron_monitor.token %>
+  </li>
+
+  <li>
+    <strong>Cron expression:</strong>
+    <%= cron_str(@cron_monitor.cron_expression) %>
+  </li>
+
+  <li>
+    <strong>Start tolerance seconds:</strong>
+    <%= @cron_monitor.start_tolerance_seconds %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.cron_monitor_path(@conn, :edit, @cron_monitor) %></span>
+<span><%= link "Back", to: Routes.cron_monitor_path(@conn, :index) %></span>
