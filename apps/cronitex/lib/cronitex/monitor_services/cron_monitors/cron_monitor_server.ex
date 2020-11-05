@@ -1,6 +1,7 @@
 defmodule Cronitex.MonitorServices.CronMonitorServer do
   use GenServer
   alias Phoenix.PubSub
+  alias Cronitex.MonitorServices.LiveUpdates
 
   def start_link(init_arg, options) do
     GenServer.start_link(__MODULE__, init_arg, options)
@@ -8,22 +9,15 @@ defmodule Cronitex.MonitorServices.CronMonitorServer do
 
   @impl true
   def init(state) do
-    # set the initial state
-    state = Map.put(state, :monitor_state, :waiting_for_first_ping)
-    PubSub.broadcast(Cronitex.PubSub, state.config.token, "waiting")
-    # IO.inspect(state)
-
+    state = update_monitor_state(state, :waiting)
     state = schedule_work(state)
-    # IO.inspect(state)
     {:ok, state}
   end
 
   @impl true
   def handle_info(:work, state) do
     state = schedule_work(state)
-    state = Map.put(state, :monitor_state, :waiting)
-    PubSub.broadcast(Cronitex.PubSub, state.config.token, "waiting")
-    # IO.inspect(state)
+    state = update_monitor_state(state, :waiting)
     {:noreply, state}
   end
 
@@ -31,17 +25,13 @@ defmodule Cronitex.MonitorServices.CronMonitorServer do
   def handle_info(:start_ping, state) do
     # If we get a success ping, disregard the timeout
     state = cancel_and_remove_timer(state, :timeout_timer)
-    state = Map.put(state, :monitor_state, :ok)
-    PubSub.broadcast(Cronitex.PubSub, state.config.token, "ok")
-    # IO.inspect(state)
+    state = update_monitor_state(state, :ok)
     {:noreply, state}
   end
 
   @impl true
   def handle_info(:timeout, state) do
-    state = Map.put(state, :monitor_state, :start_timeout)
-    PubSub.broadcast(Cronitex.PubSub, state.config.token, "start timeout")
-    # IO.inspect(state)
+    state = update_monitor_state(state, :start_timeout)
     {:noreply, state}
   end
 
@@ -49,7 +39,7 @@ defmodule Cronitex.MonitorServices.CronMonitorServer do
   def handle_info(:stop, state) do
     state = cancel_and_remove_timer(state, :work_timer)
     state = cancel_and_remove_timer(state, :timeout_timer)
-    PubSub.broadcast(Cronitex.PubSub, state.config.token, "stopped")
+    state = update_monitor_state(state, :stopped)
     {:noreply, state}
   end
 
@@ -59,6 +49,12 @@ defmodule Cronitex.MonitorServices.CronMonitorServer do
   end
 
   defp cancel_and_remove_timer(state, _timer_key), do: state
+
+  defp update_monitor_state(state, monitor_state) do
+    state = Map.put(state, :monitor_state, monitor_state)
+    LiveUpdates.notify_live_view_for_monitor_id(state.config.token, monitor_state)
+    state
+  end
 
 
   defp schedule_work(state) do

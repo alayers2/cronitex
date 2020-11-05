@@ -1,6 +1,7 @@
 defmodule CronitexWeb.CronMonitorStatusLive do
   use Phoenix.LiveView
-  alias Phoenix.PubSub
+  alias Cronitex.MonitorServices.LiveUpdates
+
 
   def render(assigns) do
     ~L"""
@@ -13,9 +14,8 @@ defmodule CronitexWeb.CronMonitorStatusLive do
   end
 
   def mount(_params, %{"monitor_token" => monitor_token}, socket) do
-    IO.puts("MOUNTING LIVE VIEW to topic #{monitor_token}")
-    status = PubSub.subscribe(Cronitex.PubSub, monitor_token)
-    IO.inspect(status)
+    LiveUpdates.subscribe_live_view_for_monitor_id(monitor_token)
+    
     {:ok, assign(socket, :status, "Ready!")}
   end
 end
