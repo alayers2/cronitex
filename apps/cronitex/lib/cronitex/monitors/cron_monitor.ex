@@ -20,16 +20,7 @@ defmodule Cronitex.Monitors.CronMonitor do
     |> validate_required([:name, :cron_expression, :start_tolerance_seconds])
     |> unique_constraint(:token)
     |> unique_constraint([:name, :user_id])
-    |> check_cron_expression()
     |> put_token()
-  end
-
-  defp check_cron_expression(changeset) do
-    case Crontab.CronExpression.Parser.parse(changeset.data.cron_expression) do
-      {:ok, _expression} -> changeset
-      {:error, _error} -> add_error(changeset, :cron_expression, "Invalid Cron Expression.")
-    end
-
   end
 
   defp put_token(changeset) do
