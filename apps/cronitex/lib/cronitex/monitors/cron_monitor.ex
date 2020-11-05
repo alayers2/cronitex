@@ -1,7 +1,6 @@
 defmodule Cronitex.Monitors.CronMonitor do
   use Ecto.Schema
   import Ecto.Changeset
-  import Crontab.CronExpression.Ecto.Type
 
   schema "cronmonitors" do
     field :name, :string
@@ -21,6 +20,7 @@ defmodule Cronitex.Monitors.CronMonitor do
     |> validate_required([:name, :cron_expression, :start_tolerance_seconds])
     |> unique_constraint(:token)
     |> unique_constraint([:name, :user_id])
+    |> check_cron_expression()
     |> put_token()
   end
 

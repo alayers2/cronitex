@@ -48,7 +48,9 @@ defmodule CronitexWeb.MixProject do
       {:gettext, "~> 0.11"},
       {:cronitex, in_umbrella: true},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"}
+      {:plug_cowboy, "~> 2.0"},
+      {:phoenix_live_view, "~> 0.14.8"},
+      {:floki, ">= 0.27.0", only: :test}
     ]
   end
 
