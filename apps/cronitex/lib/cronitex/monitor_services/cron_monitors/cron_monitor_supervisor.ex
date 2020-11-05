@@ -11,7 +11,19 @@ defmodule Cronitex.MonitorServices.CronMonitorSupervisor do
   @impl true
   def init(_init_arg) do
     Monitors.list_cronmonitors()
-    |> Enum.into([], fn (model) -> %{id: model.token, start: {CronMonitorServer, :start_link, [%{config: model}, []]}} end)
+    |> start_cron_monitor_server()
+  end
+
+  def start_cron_monitor_server(cron_monitor_model) do
+    cron_monitor_model
+    |> Enum.into([], &cron_monitor_to_child_map/1)
     |> Supervisor.init(strategy: :one_for_one)
+  end
+
+  defp cron_monitor_to_child_map(model) do
+    %{
+      id: model.token,
+      start: {CronMonitorServer, :start_link, [%{config: model}, []]}
+    }
   end
 end
