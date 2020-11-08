@@ -1,6 +1,5 @@
 defmodule Cronitex.MonitorServices.CronMonitorServer do
   use GenServer
-  alias Phoenix.PubSub
   alias Cronitex.MonitorServices.LiveUpdates
 
   def start_link(init_arg, options) do

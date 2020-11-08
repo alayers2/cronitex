@@ -11,11 +11,11 @@ defmodule Cronitex.MonitorServices.CronMonitorSupervisor do
   @impl true
   def init(_init_arg) do
     Monitors.list_cronmonitors()
-    |> start_cron_monitor_server()
+    |> start_cron_monitor_servers()
   end
 
-  def start_cron_monitor_server(cron_monitor_model) do
-    cron_monitor_model
+  def start_cron_monitor_servers(monitors) do
+    monitors
     |> Enum.into([], &cron_monitor_to_child_map/1)
     |> Supervisor.init(strategy: :one_for_one)
   end

@@ -22,4 +22,4 @@ defmodule Cronitex.MonitorServices.LiveUpdatesTest do
     assert message == :hello
   end
 
-  end
+end
