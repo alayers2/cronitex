@@ -1,0 +1,39 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      - name: set interactive
+        run: COMPOSE_INTERACTIVE_NO_CLI=1
+      # Runs a single command using the runners shell
+      - name: Docker Build
+        run: docker-compose build
+      - name: Docker Up
+        run: docker-compose up -d
+      - name: Sleep
+        run: sleep 10
+      - name: Run Tests
+        run: docker-compose exec cronitex sh -c 'MIX_ENV=test mix do compile --umbrella, coveralls.json'
+      - name: Upload coverage
+        run: bash <(curl -s https://codecov.io/bash)
