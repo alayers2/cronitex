@@ -1,7 +1,6 @@
 defmodule Cronitex.Monitors.CronMonitor do
   use Ecto.Schema
   import Ecto.Changeset
-  import Crontab.CronExpression.Ecto.Type
 
   schema "cronmonitors" do
     field :name, :string
@@ -22,14 +21,6 @@ defmodule Cronitex.Monitors.CronMonitor do
     |> unique_constraint(:token)
     |> unique_constraint([:name, :user_id])
     |> put_token()
-  end
-
-  defp check_cron_expression(changeset) do
-    case Crontab.CronExpression.Parser.parse(changeset.data.cron_expression) do
-      {:ok, _expression} -> changeset
-      {:error, _error} -> add_error(changeset, :cron_expression, "Invalid Cron Expression.")
-    end
-
   end
 
   defp put_token(changeset) do

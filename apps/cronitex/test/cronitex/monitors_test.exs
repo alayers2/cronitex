@@ -1,5 +1,5 @@
 defmodule Cronitex.MonitorsTest do
-  use Cronitex.DataCase
+  use Cronitex.DataCase, async: true
   import Crontab.CronExpression
   alias Cronitex.Monitors
 

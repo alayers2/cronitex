@@ -10,9 +10,8 @@ defmodule Cronitex.Application do
       # Start the Ecto repository
       Cronitex.Repo,
       # Start the PubSub system
-      {Phoenix.PubSub, name: Cronitex.PubSub}
-      # Start a worker by calling: Cronitex.Worker.start_link(arg)
-      # {Cronitex.Worker, arg}
+      {Phoenix.PubSub, name: Cronitex.PubSub},
+      Cronitex.MonitorServices.CronMonitorSupervisor
     ]
 
     Supervisor.start_link(children, strategy: :one_for_one, name: Cronitex.Supervisor)

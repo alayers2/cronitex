@@ -7,7 +7,7 @@
       <th>Token</th>
       <th>Cron expression</th>
       <th>Start tolerance seconds</th>
-
+      <th>Status</th>
       <th></th>
     </tr>
   </thead>
@@ -18,6 +18,7 @@
       <td><%= cron_monitor.token %></td>
       <td><%= cron_str(cron_monitor.cron_expression) %></td>
       <td><%= cron_monitor.start_tolerance_seconds %></td>
+      <td><%= live_render(@conn, CronitexWeb.CronMonitorStatusLive, session: %{"monitor_token" => cron_monitor.token}) %></td>
 
       <td>
         <span><%= link "Show", to: Routes.cron_monitor_path(@conn, :show, cron_monitor) %></span>
