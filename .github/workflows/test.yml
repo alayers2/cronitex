@@ -34,6 +34,6 @@ jobs:
       - name: Sleep
         run: sleep 10
       - name: Run Tests
-        run: docker-compose exec cronitex sh -c 'MIX_ENV=test mix do compile --umbrella, coveralls.json'
+        run: docker-compose run cronitex sh -c 'MIX_ENV=test mix do compile --umbrella, coveralls.json'
       - name: Upload coverage
         run: bash <(curl -s https://codecov.io/bash)
