@@ -41,7 +41,7 @@ defmodule Cronitex.MixProject do
       {:ecto_sql, "~> 3.4"},
       {:postgrex, ">= 0.0.0"},
       {:jason, "~> 1.0"},
-      {:pbkdf2_elixir, "~>1.0"},
+      {:pbkdf2_elixir, "~> 2.0"},
       {:crontab, "~> 1.1.10"}
     ]
   end
