@@ -26,7 +26,7 @@ defmodule Cronitex.Umbrella.MixProject do
   # and cannot be accessed from applications inside the apps/ folder.
   defp deps do
     [
-      {:excoveralls, "~> 0.14.0", only: :test}
+      {:excoveralls, "~> 0.15.1", only: :test}
     ]
   end
 
